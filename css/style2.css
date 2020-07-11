@@ -1,0 +1,163 @@
+body, html { margin:0px; padding: 0px; width: 100%; height: 100vh; overflow: hidden;}
+body {
+    background: #eee;
+    user-select: none;
+}
+
+select, input {
+    outline: none;
+}
+
+header {
+    width: 100vw;
+    text-align:center;
+}
+
+header h3 {
+    color: #1757bb;
+    margin: 0;
+    padding: 0;
+    line-height: 50px;
+    background: #fff;
+    border-bottom: 1px solid #bbb;
+}
+
+.pages {
+	width: 100%;
+	height: 100%;
+	display: grid;
+	grid-template-columns: 25% 75%;
+}
+
+.search {
+	grid-row-start: 1;
+	grid-row-end: 3;
+	background: #fff;
+    position: relative;
+}
+
+#search_bar {
+	line-height: 40px;
+    padding: 10px;
+    background: #1757bb;
+    color: #fff;
+	box-shadow: 0px 3px 3px #aaa;
+    border-bottom: 1px solid #bbb;
+    position: fixed;
+    width: calc(25% - 20px);
+}
+
+#search_form {
+    width: 100%;
+    border: 1px solid #fff;
+    border-radius: 5px;
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+#search_bar input[type=text] {
+    height: 33px;
+    border: 0px;
+	background: #1757bb;
+	color: #fff;
+    width: calc(100% - 50px);
+}
+
+#search_bar input[type=text]::placeholder {
+	color: #fff;
+}
+
+#search_bar button {
+    height: 38px;
+    vertical-align: middle;
+    float: right;
+    width: 40px;
+    background: #1757bb;
+    border: 0px;
+    font-size: 25px;
+    color: #fff;
+}
+
+#map {
+	box-shadow: 0px 1px 3px #aaa;
+}
+
+.local_list {
+    box-sizing: border-box;
+    margin-top: 75px;
+    height: calc(100vh - 130px);
+    overflow-y:scroll;
+}
+
+.local_list ul {
+    margin: 0;
+    padding: 0;
+}
+
+.local_list ul li {
+    list-style: none;
+    font-size: 14px;
+    padding: 10px;
+    border-bottom: 1px solid #D5D5D5;
+    cursor: pointer;
+}
+
+.local_list ul li:hover {
+    background: #eaeaea;
+}
+
+.local_list_hover {
+    background: #eaeaea;
+}
+
+.fs-15 {
+    font-size: 15px;
+}
+
+.items {
+    height: calc(100vh - 600px);
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+.p_category {
+    background: #1757bb;
+    color: #fff;
+    border-radius: 5px;
+    border: 0px;
+    display: inline-block;
+    font-size: 12px;
+    padding: 5px;
+    margin-right: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.busList {
+    padding: 5px;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: relative;
+}
+
+.busItem {
+    width: 250px;
+    border: 1px solid #1757bb;
+    border-radius: 5px;
+    display: inline-block;
+    background: #fff;
+    box-shadow: 3px 3px 3px #aaa;
+    padding: 5px;
+    box-sizing: border-box;
+    margin-right: 5px;
+}
+
+.busItem p{
+    font-size: 14px;
+}
+
+.notice {
+    color: red;
+    font-size: 13px;
+}

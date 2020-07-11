@@ -1,0 +1,148 @@
+body, html { margin:0px; padding: 0px; width: 100%; height: auto; overflow: auto; overflow-x: hidden;}
+body {
+    background: #eee;
+    user-select: none;
+}
+
+select, input {
+    outline: none;
+}
+
+#header {
+    line-height: 40px;
+    padding: 10px;
+    background: #1757bb;
+    border-bottom: 1px solid #12428c;
+    color: #fff;
+}
+
+#header h3 {
+    margin: 0px;
+    float: left;
+}
+
+#header h4 {
+    margin: 0px;
+    float: right;
+}
+
+.cb { clear: both; }
+
+#search_bar {
+    box-shadow: 0px 3px 3px #aaa;
+    border-bottom: 1px solid #bbb;
+    background: #fff;
+    padding: 10px;
+}
+
+#search_form {
+    width: 100%;
+    border: 1px solid #bbb;
+    border-radius: 15px;
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+#search_bar select{
+    height: 40px;
+    vertical-align: middle;
+    border: 0px;
+    width: 70px;
+    font-weight: 600;
+    background: #fff;
+}
+
+#search_bar input[type=text] {
+    height: 33px;
+    border: 0px;
+    border-bottom: 1px solid #ccc;
+    width: calc(100% - 50px);
+}
+
+#search_bar button {
+    height: 38px;
+    vertical-align: middle;
+    float: right;
+    width: 40px;
+    background: #fff;
+    border: 0px;
+    font-size: 25px;
+    color: #aaa;
+}
+
+#content {
+    padding: 10px;
+}
+
+#list_items {
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+    justify-content: space-evenly;
+}
+
+.item {
+    margin: 5px;
+    background: #fff;
+    flex: 1 1 0;
+    max-width: 400px;
+    padding: 10px;
+    box-sizing: border-box;
+    box-shadow: 2px 2px 3px #aaa;
+    border-radius: 5px;
+    text-align: left;
+    font-size: 14px;
+}
+
+@media screen and (max-width: 1000px) {
+    .item {
+        flex: 1 1 30%;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .item {
+        flex: 1 1 40%;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .item {
+        flex: 1 1 50%;
+    }
+}
+
+#content {
+    text-align: center;
+    align-items: center;
+}
+
+#content ul {
+    margin: 10px 0px;
+    padding: 0px;
+}
+
+#content ul li {
+    list-style: none;
+    margin: 0px;
+    left: 0px;
+    display: inline-block;
+    width: 40%;
+    text-align: center;
+    padding: 15px;
+    box-sizing: border-box;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 2px 2px 3px #aaa;
+}
+
+.off {
+    background: #fff;
+}
+
+.on {
+    background-color: #4374D9;
+    color: #fff;
+}
