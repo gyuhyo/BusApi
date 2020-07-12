@@ -3,7 +3,7 @@ $x = $_POST['x'];
 $y = $_POST['y'];
 
 $curl = curl_init();
-$url = "https://api.odsay.com/v1/api/pointBusStation?apiKey=6jKgSU48pGu3AYkXRTEKq1pLW99Labj2xKrZxISEK9E&x=".$x."&y=".$y."&radius=200";
+$url = "https://api.odsay.com/v1/api/pointBusStation?apiKey=6jKgSU48pGu3AYkXRTEKq1pLW99Labj2xKrZxISEK9E&x=".$x."&y=".$y."&radius=150";
 curl_setopt_array($curl, array(
     CURLOPT_URL => $url,
     CURLOPT_RETURNTRANSFER => true,

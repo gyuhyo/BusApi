@@ -1,4 +1,8 @@
 <!doctype HTML>
+<?
+include "./dbconfig.php";
+session_start();
+?>
 <html lang="en">
     <head>
         <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
@@ -44,7 +48,11 @@
                     let lng = $(this).find("input:hidden[name='longitude']").val();
                     let lat = $(this).find("input:hidden[name='latitude']").val();
                     load_map(lat, lng);
-
+                    $("#loading").css("display", "block");
+                    if ($(".pages").css("display") == "block") {
+                        $("body").scrollTop($(document).height());
+                        $("#map").css("height", "400px");
+                    }
                     getBusStop(lng, lat);
 
                     $(".local_list ul li").removeClass("local_list_hover");
@@ -91,6 +99,50 @@
                         $(targetElementDiv).append(html);
                     }, "json");
                 });
+
+                $("#login_span").click(function(){
+                   $(".pop_cover").show();
+                });
+
+                $(".kakao_login").click(function(){
+                   location.href='./login.php';
+                });
+
+                $("header h4").click(function(){
+                    if ($("div.arrow_box").css("display") == "none") {
+                        $("div.arrow_box").show();
+                    } else {
+                        $("div.arrow_box").hide();
+                    }
+                });
+
+                $(".arrow_box ul li").click(function(){
+                   location.href='./' + $(this).attr("location") + '.php';
+                });
+
+                $(document).on("click", "#favorites", function(e){
+                    e.stopPropagation();
+                    <? if (!isset($_SESSION['user_id'])) { ?>
+                    alert("로그인 후 이용 가능합니다.");
+                    return;
+                    <? } else { ?>
+                    if ($(this).hasClass("far")) {
+                        $(this).removeClass("far");
+                        $(this).addClass("fas");
+                        $(this).css("color", "yellow");
+                        $.post("./favorite.php", {'type': 'add', 'station_id': $(this).next().val(), 'station_name': $(this).prev().text()}, function(data){
+                            alert("즐겨찾기 등록 완료");
+                        });
+                    } else {
+                        $(this).addClass("far");
+                        $(this).removeClass("fas");
+                        $(this).css("color", "white");
+                        $.post("./favorite.php", {'type': 'del', 'station_id': $(this).next().val()}, function(data){
+                            alert("즐겨찾기 제거 완료");
+                        });
+                    }
+                    <? } ?>
+                });
             });
 
 			function load_map(lat = 35.1883881213984, lng = 129.091933372677) {
@@ -108,11 +160,17 @@
                 });
                 marker.setMap(map);
 			}
-
             function getBusStop(cX, cY){
                 $(".busCategory").empty();
-                let busStopList = '<span class="notice">오차범위 약: 20M 이내</span><br />';
+                let busStopList = '';
                 let BusStationArr = [];
+                // 즐겨찾기 목록 //
+                let myFavorite = new Array();
+                $.post("./favorite.php", {'type': 'get'}, function(data){
+                    $(data.result).each(function(key, row) {
+                        myFavorite.push(row.station_id);
+                    });
+                }, "json");
                 $.post("./getBusStop.php", {x:cX, y:cY},
                     function (data) {
                     console.log(data);
@@ -125,10 +183,11 @@
                     for(i=0; i<BusStationArr.length; i++) {
                         $.post("./getBusStopInfo.php", {busStopName: encodeURI(BusStationArr[i])},
                             function(busStopData) {
+                                let favorite;
                                 $(busStopData.response.body.items.item).each(function(key, row){
-                                    console.log(row);
+                                    favorite = (myFavorite.indexOf((row.bstopId).toString()) > -1) ? '<i class="fas fa-star" id="favorites" style="color: yellow;"></i>' : '<i class="far fa-star" id="favorites"></i>';
                                     busStopList += '<p class="p_category">';
-                                    busStopList += '<span name="busStopName">' + row.bstopNm + '</span>';
+                                    busStopList += '<span name="busStopName">' + row.bstopNm + '</span> ' + favorite;
                                     busStopList += '<input type="hidden" name="busStopId" value="' + row.bstopId + '"/>';
                                     busStopList += '<input type="hidden" name="busX" value="' + row.gpsX + '"/>';
                                     busStopList += '<input type="hidden" name="busY" value="' + row.gpsY + '"/>';
@@ -136,7 +195,7 @@
                                     $(".busCategory").append(busStopList);
                                     busStopList = '';
                                 });
-
+                                $("#loading").css("display", "none");
                             }, "json");
                     };
                     console.log(busStopList);
@@ -148,6 +207,21 @@
     <body>
         <header>
             <h3>부산시 버스 도착정보</h3>
+            <h4>
+                <? if(isset($_SESSION['user_id'])) { ?>
+                <img src="<?=$_SESSION['user_pic'];?>" style="width:35px; height: 35px; border-radius: 3px; vertical-align: middle;" />
+                    <span><?=$_SESSION['user_nick'];?>님</span>
+                    <div class="arrow_box">
+                        <ul>
+                            <li location="favorite">즐겨찾기</li>
+                            <li location="logout">로그아웃</li>
+                        </ul>
+                    </div>
+                <? } else { ?>
+                    <span id="login_span">로그인</span>
+                <? } ?>
+            </h4>
+            <div class="cb"></div>
         </header>
         <div class="pages">
 			<div class="search">
@@ -160,13 +234,23 @@
                 <div class="local_list">
                 </div>
 			</div>
-			<div id="map" style="width:100%; height:600px;"></div>
+			<div id="map"></div>
 			<div class="items">
+                <span class="notice">오차범위 약: 20M 이내</span><br />
                 <div class="busCategory"></div>
                 <img src="./img/loading.gif" id="loading" style="width: 50px; height: 50px;" hidden/>
                 <div class="busList">
                 </div>
 			</div>
 		</div>
+    <div class="pop_cover">
+        <div class="login_form">
+            <h3>로그인</h3>
+            <hr>
+            <div class="kakao_login_form">
+                <img src="./img/kakao_login_btn.png" class="kakao_login"/>
+            </div>
+        </div>
+    </div>
     </body>
 </html>
