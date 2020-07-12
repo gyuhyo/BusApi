@@ -7,7 +7,9 @@
     if ($_POST["type"] == "add") {
         $sid = $_POST["station_id"];
         $sname = $_POST["station_name"];
-        $sql = "INSERT INTO favorite (user_id, station_id, station_name) VALUES ('".$uid."', '".$sid."', '".$sname."')";
+        $x = $_POST["x"];
+        $y = $_POST["y"];
+        $sql = "INSERT INTO favorite (user_id, station_id, station_name, x, y) VALUES ('".$uid."', '".$sid."', '".$sname."', '".$x."', '".$y."')";
     } else {
         if ($_POST["type"] == "del") {
             $sid = $_POST["station_id"];

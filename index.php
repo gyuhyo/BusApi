@@ -127,10 +127,18 @@ session_start();
                     return;
                     <? } else { ?>
                     if ($(this).hasClass("far")) {
+                        console.log($(this).next().next().val());
+                        console.log($(this).next().next().next().val());
                         $(this).removeClass("far");
                         $(this).addClass("fas");
                         $(this).css("color", "yellow");
-                        $.post("./favorite.php", {'type': 'add', 'station_id': $(this).next().val(), 'station_name': $(this).prev().text()}, function(data){
+                        $.post("./favorite.php", {
+                            'type': 'add',
+                            'station_id': $(this).next().val(),
+                            'station_name': $(this).prev().text(),
+                            'x': $(this).next().next().val(),
+                            'y': $(this).next().next().next().val()
+                        }, function(data){
                             alert("즐겨찾기 등록 완료");
                         });
                     } else {
@@ -213,7 +221,8 @@ session_start();
                     <span><?=$_SESSION['user_nick'];?>님</span>
                     <div class="arrow_box">
                         <ul>
-                            <li location="favorite">즐겨찾기</li>
+                            <li location="index">홈으로</li>
+                            <li location="favorite_list">즐겨찾기</li>
                             <li location="logout">로그아웃</li>
                         </ul>
                     </div>
@@ -237,7 +246,8 @@ session_start();
 			<div id="map"></div>
 			<div class="items">
                 <span class="notice">오차범위 약: 20M 이내</span><br />
-                <div class="busCategory"></div>
+                <div class="busCategory">
+                </div>
                 <img src="./img/loading.gif" id="loading" style="width: 50px; height: 50px;" hidden/>
                 <div class="busList">
                 </div>
